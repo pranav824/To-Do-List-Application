@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Home Page</h1>
+    <div>
+        <form action="{% url "myapp:add" %}" method="POST">
+            {% csrf_token %}
+            <label for="title">Add Title</label>
+            <input type="text" name="title" id="title">
+
+            <button type="submit">ADD</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Tasks List</h2>
+        <ul>
+            {% for task in tasks  %}
+            <li>
+            {% if task.completed %}
+                <p style="color:green">{{task}}</p>
+            {% else %}
+            {{task}}
+            {% endif %}
+
+            <form action="{% url "myapp:complete" task.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Completed</button>
+            </form>
+
+            <form action="{% url "myapp:delete" task.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+
+            <a href="{% url "myapp:update" task.id %}">Update</a>
+
+            </li>
+            {% endfor %}
+        </ul>
+        
+
+
+        
+            
+    </div>
+
+</body>
+</html>
